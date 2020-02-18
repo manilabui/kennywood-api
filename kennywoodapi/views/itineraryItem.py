@@ -3,8 +3,8 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from rest_framework import status
-from kennywoodapi.models import Attraction, ParkArea, Itinerary, Customer
+from kennywoodapi.models import Itinerary
+
 
 class ItinerarySerializer(serializers.HyperlinkedModelSerializer):
     """JSON serializer for intineraries
@@ -36,6 +36,23 @@ class ItineraryItems(ViewSet):
             return Response(serializer.data)
         except Exception as ex:
             return HttpResponseServerError(ex)
+
+    def list(self, request):
+        """Handle GET requests to park attractions resource
+
+        Returns:
+            Response -- JSON serialized list of park attractions
+        """
+
+        itineraries = Itinerary.objects.all()
+
+        area = self.request.query_params.get('area', None)
+        if area is not None:
+            itineraries = itineraries.filter(area__id=area)
+
+        serializer = ItinerarySerializer(itineraries, many=True, context={'request': request})
+
+        return Response(serializer.data)
 
     def create(self, request):
         new_itinerary_item = Itinerary()

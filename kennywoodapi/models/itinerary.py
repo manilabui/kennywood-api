@@ -2,6 +2,7 @@ from django.db import models
 from .customer import Customer
 from .attraction import Attraction
 
+
 class Itinerary(models.Model):
 
     attraction = models.ForeignKey(Attraction, on_delete=models.DO_NOTHING)
@@ -10,8 +11,8 @@ class Itinerary(models.Model):
 
     class Meta:
         ordering = ("starttime",)
-        verbose_name = ("itinerary")
-        verbose_name_plural = ("itineraries")
+        verbose_name = ("itinerary",)
+        verbose_name_plural = ("itineraries",)
 
     def __str__(self):
         return f'Riding {self.attraction.name} at {self.starttime}'
