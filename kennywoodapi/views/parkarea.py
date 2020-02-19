@@ -2,8 +2,7 @@
 from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-from rest_framework import serializers
-from rest_framework import status
+from rest_framework import serializers, status
 from kennywoodapi.models import ParkArea
 
 
@@ -72,17 +71,17 @@ class ParkAreas(ViewSet):
 
     # handles PUT
     def update(self, request, pk=None):
-      """Handle PUT requests for a park area
+        """Handle PUT requests for a park area
 
-      Returns:
+        Returns:
           Response -- Empty body with 204 status code
-      """
-      area = ParkArea.objects.get(pk=pk)
-      area.name = request.data["name"]
-      area.theme = request.data["theme"]
-      area.save()
+        """
+        area = ParkArea.objects.get(pk=pk)
+        area.name = request.data["name"]
+        area.theme = request.data["theme"]
+        area.save()
 
-      return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     # handles DELETE
     def destroy(self, request, pk=None):
